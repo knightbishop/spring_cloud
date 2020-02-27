@@ -1,5 +1,6 @@
 package com.luxoft.training.spring.cloud;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 @RestController
 public class ProcessingRest {
@@ -26,8 +30,7 @@ public class ProcessingRest {
     @RequestMapping("/issue/{accountId}")
     public String issueNewCard(@PathVariable Integer accountId) {
         final String card = cardServiceClient.createCard();
-        if(card == null)
-        {
+        if (card == null) {
             return "CARD_SERVICE_NOT_AVAILABLE";
         }
         ProcessingEntity pe = new ProcessingEntity();
@@ -50,9 +53,24 @@ public class ProcessingRest {
     public Map<Integer, String> getByAccount(@RequestParam("account_id") List<Integer> accountIdList) {
         List<ProcessingEntity> list = repo.findByAccountIdIn(accountIdList);
         Map<Integer, String> map = new HashMap<Integer, String>();
-        for (ProcessingEntity pe: list) {
+        for (ProcessingEntity pe : list) {
             map.put(pe.getAccountId(), pe.getCard());
         }
         return map;
+    }
+
+    @HystrixCommand(fallbackMethod = "testFallBack")
+    @RequestMapping("/test")
+    public String testHystrix(Boolean fail) {
+
+        if (TRUE.equals(fail)) {
+            System.out.println("value of fail is =" +fail);
+            throw new RuntimeException("exception occurred");
+        }
+        return "ok";
+    }
+
+    public String testFallBack(Boolean fail){
+        return "FAILED";
     }
 }
