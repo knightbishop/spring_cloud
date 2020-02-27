@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ProcessingService
+
+server:
+  port: 8805
+
+  eureka:
+    client:
+      fetchRegistry: true
+      registerWithEureka: true
+      serviceUrl:
+        defaultZone: http://localhost:8761/eureka
+
+spring.database:url: jdbc:h2:file:/ProcessingService;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
