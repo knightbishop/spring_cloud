@@ -1,0 +1,4 @@
+com\luxoft\training\spring\cloud\RemoteEventPublisher.class
+com\luxoft\training\spring\cloud\AbstractFinancialEvent.class
+com\luxoft\training\spring\cloud\FundEvent.class
+com\luxoft\training\spring\cloud\WithdrawEvent.class

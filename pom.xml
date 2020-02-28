@@ -31,8 +31,6 @@
         </dependencies>
     </dependencyManagement>
 
-
-
     <modules>
         <module>Common</module>
         <module>AccountService</module>

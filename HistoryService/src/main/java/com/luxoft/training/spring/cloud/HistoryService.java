@@ -8,15 +8,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static java.util.Collections.synchronizedMap;
+
 @SpringBootApplication
 @RemoteApplicationEventScan
 @RestController
-public class HistoryService {
+public class HistoryService implements ApplicationListener<AbstractFinancialEvent> {
+    private Map<Date, BigDecimal> historyMap = synchronizedMap(new LinkedHashMap<Date, BigDecimal>());
+
+    @GetMapping
+    public Map<Date, BigDecimal> getHistory() {
+        return historyMap;
+    }
+
+    @Override
+    public void onApplicationEvent(AbstractFinancialEvent event) {
+        Map<Date, BigDecimal> historyMap = synchronizedMap(new LinkedHashMap<Date, BigDecimal>());
+        historyMap.put(new Date(event.getTimestamp()), event.getSum());
+    }
     public static void main(String[] args) {
         SpringApplication.run(HistoryService.class, args);
     }

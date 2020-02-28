@@ -13,8 +13,22 @@
         <artifactId>spring-cloud</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <dependencies>
+        <dependency>
+            <groupId>com.luxoft.training.spring.cloud</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-bus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
     </dependencies>
-
 </project>
