@@ -1,6 +1,13 @@
 spring:
   application:
     name: Publisher
-  cloud:
-    config:
-      uri: http://localhost:8600
+cloud:
+  config:
+    allowOverride: true
+server:
+  port: 8001
+spring.cloud.stream.bindings.words:
+  destination: wordNumSplit
+  producer:
+    partitionKeyExpression: payload
+    partitionCount: 2
